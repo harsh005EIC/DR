@@ -21,7 +21,7 @@ int16_t c;
 int8_t fold;
 char line[maxline];
 int8_t col = 0;
-int8_t i = 0;
+int i = 0;
 
 printf("After how much character you want to fold : ");
 scanf("%hhd",&fold);

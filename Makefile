@@ -23,7 +23,7 @@ TASK_OBJ = $(MOD_DIR)/obj/170877_harsh_DR_Module$(MODULE)_T006_$(MODULE)-$(TASK)
 all:$(BIN)
 
 $(BIN): $(MAIN_OBJ) $(TASK_OBJ) $(SEL_FUNC_OBJ) $(COMM_OBJ) 
-	$(CC) $(MAIN_OBJ) $(TASK_OBJ) $(SEL_FUNC_OBJ) $(COMM_OBJ) -o $(BIN)
+	$(CC) $(MAIN_OBJ) $(TASK_OBJ) $(SEL_FUNC_OBJ) $(COMM_OBJ) -o $(BIN) -lm
 
 $(MAIN_OBJ): $(MAIN_SRC) Makefile
 	$(CC) $(CFLAGS) -c $< -o $@

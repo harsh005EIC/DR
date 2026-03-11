@@ -80,7 +80,48 @@ void upper_to_lower(void);
 
 void binary_search(void);
 
+void escape(void);
+
+void expands(void);
+
+void itoa(void);
+
+void itob(void);
+
+void itoa_with_padding(void);
+
+/* Module 4 */
+
+void strindex(void);
+
+//void atof(void);
+
+void reverse_polish_notation(void);
+
+void print_swap_clear_stack(void);
+
+void sin_exp_pow_stack(void);
+
+void handling_variable(void);
+
+void push_back_entire_string(void);
+
+void Modify_getch_ungetch(void);
+
+void push_back_string_Eof_handling(void);
+
+void rpn_getline(void);
+
+void modified_getop_wo_un_getch(void);
+
+void itoa_recursion(void);
+
+void reverse_string_recursion(void);
+
+void macro_swap(void);
+
 /* Future modules can be added here */
 
 #endif
+
 

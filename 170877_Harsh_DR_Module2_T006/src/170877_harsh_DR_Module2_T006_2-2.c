@@ -36,3 +36,4 @@ while (i < lim) {
     printf("String entered: %s\n", s);
 
 }
+ 

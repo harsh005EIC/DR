@@ -8,7 +8,7 @@
 
 #include<stdio.h>
 #include "header.h"
-#include<tdint.h>
+#include<stdint.h>
 void word_count(void)
 {
 

@@ -108,6 +108,63 @@ void select_function(void)
 #elif MODULE == 3 && TASK == 1
 	binary_search();
 
+#elif MODULE == 3 && TASK == 2
+	escape();
+
+#elif MODULE == 3 && TASK == 3
+	expands();
+
+#elif MODULE == 3 && TASK == 4
+	itoa();
+
+#elif MODULE == 3 && TASK == 5
+	itob();
+
+#elif MODULE == 3 && TASK == 6
+	itoa_with_padding();
+
+#elif MODULE == 4 && TASK == 1
+	strindex();
+
+#elif MODULE == 4 && TASK == 2
+	atof();
+
+#elif MODULE == 4 && TASK == 3
+	reverse_polish_notation();
+
+#elif MODULE == 4 && TASK == 4
+	print_swap_clear_stack();
+
+#elif MODULE == 4 && TASK == 5
+	sin_exp_pow_stack();
+
+#elif MODULE == 4 && TASK == 6
+	handling_variable();
+
+#elif MODULE == 4 && TASK == 7
+	push_back_entire_string();
+
+#elif MODULE == 4 && TASK == 8
+	Modify_getch_ungetch();
+
+#elif MODULE == 4 && TASK == 9
+	push_back_string_Eof_handling();
+
+#elif MODULE == 4 && TASK == 10
+	rpn_getline();
+
+#elif MODULE == 4 && TASK == 11
+	modified_getop_wo_un_getch();
+
+#elif MODULE == 4 && TASK == 12
+	itoa_recursion();
+
+#elif MODULE == 4 && TASK == 13
+	reverse_string_recursion();
+
+#elif MODULE == 4 && TASK == 14
+	macro_swap();
+
 #else
         printf("Invalid module/task selection\n");
 #endif

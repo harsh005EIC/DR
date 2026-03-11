@@ -12,5 +12,5 @@
 
 void print_helloworld(void)
 {
-	printf("hello harsh \n");
+	printf("hello world \n");
 }

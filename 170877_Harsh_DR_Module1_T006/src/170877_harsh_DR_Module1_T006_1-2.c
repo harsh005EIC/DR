@@ -10,5 +10,5 @@
 
 void print_c_helloworld(void)
 {
-	printf("hi\c harsh\n");
+	printf("hi \c harsh");
 }
