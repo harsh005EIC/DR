@@ -32,6 +32,7 @@ unsigned int num;
 
 	if (b < 2 || b > 36)
 	{
+	printf("Enter a valid base value : ");
 	return;
 	}
 

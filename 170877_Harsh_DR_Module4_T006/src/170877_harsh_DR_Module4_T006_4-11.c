@@ -16,7 +16,6 @@
 int8_t sp = 0;
 double val[VAL];
 
-/* push value */
 	void push(double f)
 	{
 	if (sp < VAL)
@@ -25,7 +24,6 @@ double val[VAL];
 	  printf("error: stack full\n");
 	}
 
-/* pop value */
 	double pop(void)
 	{
 		if (sp > 0)

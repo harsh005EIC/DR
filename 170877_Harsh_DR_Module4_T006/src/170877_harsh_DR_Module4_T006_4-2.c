@@ -42,10 +42,6 @@ double decimal_division = 1;
 	while(s[index] != '\0')
 	{
 
-	 if(decimal_point == 1)
-          {
-           decimal_division = decimal_division / 10;
-          }
 
 	if(s[index] == '.')
 	{
@@ -72,6 +68,12 @@ double decimal_division = 1;
 	ten_power = sign_exponent(s,index);
 	break;
 	}
+
+	 if(decimal_point == 1)
+          {
+           decimal_division = decimal_division / 10;
+          }
+
 	 number=(number * 10) + s[index] - '0';
 	 index++;
 	}
@@ -95,7 +97,7 @@ double decimal_division = 1;
 	}
 printf("number is %lf : \n",number*decimal_division);
 }
-void atof(void)
+void atofloat(void)
 {
 char s[1000]="";
 double number=0;

@@ -43,7 +43,6 @@ int getop(char s[])
 	if (isdigit(c))
         while (isdigit(s[++i] = c = getchar()));
 
-    // Collect fractional part
         if (c == '.')
         while (isdigit(s[++i] = c = getchar()));
 
@@ -87,7 +86,7 @@ void print_swap_clear_stack(void)
 		int count = 1;
 
 		char temp[MAXOP];
-		int t = getop(temp);   // read next token
+		int t = getop(temp);
 
 		if (t == NUMBER) {
 		count = atoi(temp);
@@ -105,14 +104,13 @@ void print_swap_clear_stack(void)
     if (count > sp)
         count = sp;
 
-    // print from bottom of selected range to top
     for (int i = sp - count; i < sp; i++)
         printf("%.8g\n", val[i]);
 
     break;
 }
 
-		case 'd':   // duplicate top
+		case 'd':
 		if (sp > 0){
 		push(val[sp-1]);
 		}
@@ -120,18 +118,18 @@ void print_swap_clear_stack(void)
 		printf("Error: stack empty\n");
 		break;
 
-		case 's':   // swap top two
+		case 's':
 		if (sp > 1) {
 		double temp = val[sp-1];
 		val[sp-1] = val[sp-2];
 		val[sp-2] = temp;
 		}
 		else {
-		printf("Error: not enough elements\n");
+		printf("not enough elements\n");
 		}
 		break;
 
-		case 'c':   // clear stack
+		case 'c':
 		sp = 0;
 		break;
 
@@ -142,7 +140,7 @@ void print_swap_clear_stack(void)
             	break;
 
 		default:
-                printf("error: unknown command %s\n", s);
+                printf("unknown command %s\n", s);
                 break;
 	}
 	}

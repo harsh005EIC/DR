@@ -34,15 +34,17 @@ void ftoa_recursive(double num, char s[])
 
 	    if (fraction > 0) {
 		s[i++] = '.';
-	    for (int j = 0; j < 3; j++) {
+	    for (int j = 0; i<18 ; j++) {
 		fraction *= 10;
                 int digit = (int)fraction;
                 s[i++] = digit + '0';
                 fraction -= digit;
 	    }
-	    }
-
-    s[i] = '\0';
+	while(s[--i]=='0' || s[--i] == '9')
+	{
+	s[i]='\0';
+	}
+	}
 }
 
 void itoa_recursion(void)

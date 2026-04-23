@@ -15,6 +15,7 @@
 void binary_search(void){
 
 	 char repeat;
+
 do{
 	int8_t number;
 	printf("Enter a number of elements you want to add in array : ");
@@ -73,35 +74,29 @@ do{
 
 	int8_t low=0;
 	int8_t high=number-1;
-	int8_t found=0;
+	int8_t mid;
+	while(low<high){
+		mid=low + (high - low) / 2;
 
-	while(low<=high){
-		int8_t mid=low + (high - low) / 2;
-
-		if(find < arr[mid]){
-		high=mid-1;
-		}
-		else if(find > arr[mid])
-		{
-		low=mid+1;
+		if(find <= arr[mid]){
+		high=mid;
 		}
 		else
 		{
-		 printf("number %d found at positiion %d \n",find,mid);
-		 found=1;
-		 break;
+		low=mid+1;
 		}
 	}
+	if(arr[low] == find)
+	{
+	printf("value %d found at index %d",find,low);
+	}
 
-	 if(!found)
-         printf("Number not found\n");
-
-	 free(arr);
+x	 free(arr);
 
 	printf("\nDo you want to search again? (y/n): ");
 	scanf(" %c", &repeat);
 }while(repeat == 'y' || repeat == 'Y');
-
+ 
 printf("Exiting...\n");
 
 }

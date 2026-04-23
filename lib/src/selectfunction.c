@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include "header.h"
 
-void select_function(void)
-{
+void select_function(int argc, char *argv[]){
+    (void)argc;
+    (void)argv;
 #if MODULE == 1 && TASK == 1
         print_helloworld();
 
@@ -127,7 +128,7 @@ void select_function(void)
 	strindex();
 
 #elif MODULE == 4 && TASK == 2
-	atof();
+	atofloat();
 
 #elif MODULE == 4 && TASK == 3
 	reverse_polish_notation();
@@ -164,6 +165,108 @@ void select_function(void)
 
 #elif MODULE == 4 && TASK == 14
 	macro_swap();
+
+#elif MODULE == 5 && TASK == 1
+	change_getint();
+
+#elif MODULE == 5 && TASK == 2
+	getfloat();
+
+#elif MODULE == 5 && TASK == 3
+	stringcat();
+
+#elif MODULE == 5 && TASK == 4
+	substringatend();
+
+#elif MODULE == 5 && TASK == 5
+	str_functions();
+
+#elif MODULE == 5 && TASK == 6
+	my_function();
+
+#elif MODULE == 5 && TASK == 7
+	sort_lines();
+
+#elif MODULE == 5 && TASK == 8
+	calender();
+
+#elif MODULE == 5 && TASK == 9
+	calender_pointer();
+
+#elif MODULE == 5 && TASK == 10
+	rpn_cl(argc, argv);
+
+#elif MODULE == 5 && TASK == 11
+	entab_detab_cl(argc, argv);
+
+#elif MODULE == 5 && TASK == 12
+	entab_detab_shorthand(argc, argv);
+
+#elif MODULE == 5 && TASK == 13
+	tail_lines(argc, argv);
+
+#elif MODULE == 5 && TASK == 14
+	sorting_in_reverse(argc, argv);
+
+#elif MODULE == 5 && TASK == 15
+	string_fold(argc, argv);
+
+#elif MODULE == 5 && TASK == 16
+	string_dir_fold(argc,argv);
+
+#elif MODULE == 5 && TASK == 17
+	sorting_field(argc, argv);
+
+#elif MODULE == 5 && TASK == 18
+	direct_dcl();
+
+#elif MODULE == 5 && TASK == 19
+	undeclare();
+
+#elif MODULE == 5 && TASK == 20
+	dcl_argument();
+
+#elif MODULE == 6 && TASK == 1
+	get_word();
+
+#elif MODULE == 6 && TASK == 2
+	variable_names( argc, argv);
+
+#elif MODULE == 6 && TASK == 3
+	cross_reff();
+
+#elif MODULE == 6 && TASK == 4
+	cross_reff_dec_order();
+
+#elif MODULE == 6 && TASK == 5
+	un_def();
+
+#elif MODULE == 6 && TASK == 6
+	pre_processor();
+
+#elif MODULE == 7 && TASK == 1
+	upper_lower(argc, argv);
+
+#elif MODULE == 7 && TASK == 2
+	print_non_graphic_characters();
+
+#elif MODULE == 7 && TASK == 3
+	min_printf();
+
+#elif MODULE == 7 && TASK == 4
+	min_scanf();
+
+#elif MODULE == 7 && TASK == 5
+	rpn_sscanf();
+
+#elif MODULE == 7 && TASK == 6
+	file_compare(argc,argv);
+
+#elif MODULE == 7 && TASK == 7
+	find_keyword(argc,argv);
+
+#elif MODULE == 7 && TASK == 8
+	print_files(argc,argv);
 
 #else
         printf("Invalid module/task selection\n");

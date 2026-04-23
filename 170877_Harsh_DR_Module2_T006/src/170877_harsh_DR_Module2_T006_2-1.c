@@ -1,11 +1,11 @@
 /*
-* File Name     : 170904_harsh_DR_module2_T006_2-1.c
-* Description   : Write a program to determine the ranges of char, short, int, and long variables, both signed and unsigned,
-                  by printing appropriate values from standard headers and by direct computation. Harder if you compute them:
-		  determine the ranges of the various floating-point types.
-* Author        : harsh_kerai
-* Created       : 16-02-2026
-*/
+ * File Name     : 170904_harsh_DR_module2_T006_2-1.c
+ * Description   : Write a program to determine the ranges of char, short, int, and long variables, both signed and unsigned,
+ by printing appropriate values from standard headers and by direct computation. Harder if you compute them:
+ determine the ranges of the various floating-point types.
+ * Author        : harsh_kerai
+ * Created       : 16-02-2026
+ */
 
 #include <stdio.h>
 #include <limits.h>
@@ -36,33 +36,33 @@ void range_of_datatype(void)
 	printf("double      : %e to %e\n", DBL_MIN, DBL_MAX);
 	printf("long double : %Le to %Le\n", LDBL_MIN, LDBL_MAX);
 
-	 printf("\nRanges by Direct Computation\n\n");
+	printf("\nRanges by Direct Computation\n\n");
 
-    int bits = sizeof(char) * 8;
+	int bits = sizeof(char) * 8;
 
-    printf("Signed char   : %d to %d\n",
-           -(int)pow(2, bits-1),
-           (int)pow(2, bits-1) - 1);
+	printf("Signed char   : %d to %d\n",
+			-(int)pow(2, bits-1),
+			(int)pow(2, bits-1) - 1);
 
-    printf("Unsigned char : 0 to %u\n",
-           (unsigned int)pow(2, bits) - 1);
+	printf("Unsigned char : 0 to %u\n",
+			(unsigned int)pow(2, bits) - 1);
 
-    bits = sizeof(int) * 8;
+	bits = sizeof(int) * 8;
 
-    printf("\nSigned int   : %d to %d\n",
-           -(int)pow(2, bits-1),
-           (int)pow(2, bits-1) - 1);
+	printf("\nSigned int   : %d to %d\n",
+			-(int)pow(2, bits-1),
+			(int)pow(2, bits-1) - 1);
 
-    printf("Unsigned int : 0 to %u\n",
-           (unsigned int)pow(2, bits) - 1);
+	printf("Unsigned int : 0 to %u\n",
+			(unsigned int)pow(2, bits) - 1);
 
-    bits = sizeof(long) * 8;
+	bits = sizeof(long) * 8;
 
-    printf("\nSigned long   : %ld to %ld\n",
-           -(long)pow(2, bits-1),
-           (long)pow(2, bits-1) - 1);
+	printf("\nSigned long   : %ld to %ld\n",
+			-(long)pow(2, bits-1),
+			(long)pow(2, bits-1) - 1);
 
-    printf("Unsigned long : 0 to %lu\n",
-           (unsigned long)pow(2, bits) - 1);
+	printf("Unsigned long : 0 to %lu\n",
+			(unsigned long)pow(2, bits) - 1);
 
 }

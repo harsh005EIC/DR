@@ -27,3 +27,4 @@ char s[100];
 
 	printf("Reversed string = %s\n", s);
 }
+

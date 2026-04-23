@@ -2,7 +2,7 @@
 #define HEADER_H
 
 /* Module 1 */
-void select_function(void);
+void select_function(int argc, char *argv[]);
 
 void print_helloworld(void);
 
@@ -94,7 +94,7 @@ void itoa_with_padding(void);
 
 void strindex(void);
 
-//void atof(void);
+void atofloat(void);
 
 void reverse_polish_notation(void);
 
@@ -120,6 +120,79 @@ void reverse_string_recursion(void);
 
 void macro_swap(void);
 
+/* Module 5 */
+
+void change_getint(void);
+
+void getfloat(void);
+
+void stringcat(void);
+
+void substringatend(void);
+
+void str_functions(void);
+
+void my_function(void);
+
+void sort_lines(void);
+
+void calender(void);
+
+void calender_pointer(void);
+
+void rpn_cl(int argc, char *argv[]);
+
+void entab_detab_cl(int argc, char *argv[]);
+
+void entab_detab_shorthand(int argc,char *argv[]);
+
+void tail_lines(int argc, char *argv[]);
+
+void sorting_in_reverse(int argc, char *argv[]);
+
+void string_fold(int argc, char *argv[]);
+
+void string_dir_fold(int argc, char *argv[]);
+
+void sorting_field(int argc, char *argv[]);
+
+void direct_dcl(void);
+
+void undeclare(void);
+
+void dcl_argument(void);
+
+/* Module 6 */
+
+void get_word(void);
+
+void variable_names(int argc, char *argv[]);
+
+void cross_reff(void);
+
+void cross_reff_dec_order(void);
+
+void un_def(void);
+
+void pre_processor(void);
+
+/* Module 7 */
+
+void upper_lower(int argc, char *argv[]);
+
+void print_non_graphic_characters(void);
+
+void min_printf(void);
+
+void min_scanf(void);
+
+void rpn_sscanf(void);
+
+void file_compare(int argc, char *argv[]);
+
+void find_keyword(int argc, char *argv[]);
+
+void print_files(int argc, char *argv[]);
 /* Future modules can be added here */
 
 #endif

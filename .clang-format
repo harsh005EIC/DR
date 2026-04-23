@@ -1,0 +1,21 @@
+BasedOnStyle: LLVM
+
+# Indentation
+IndentWidth: 8
+TabWidth: 8
+UseTab: Never
+
+# Brace style (THIS is the key part)
+BreakBeforeBraces: Allman
+
+# Spacing & layout
+ColumnLimit: 150
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+
+# Improve readability
+IndentCaseLabels: true
+SpaceBeforeParens: ControlStatements
+
+# Optional: keep functions clearly separated
+SeparateDefinitionBlocks: Always

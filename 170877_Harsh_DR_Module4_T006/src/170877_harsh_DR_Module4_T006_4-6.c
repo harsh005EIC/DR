@@ -21,6 +21,17 @@ double val[MAXVAL];
 
 double alpha[26]={0};
 double last = 0.0;
+
+	void print_variables(void)
+	{
+		printf("Variables:\n");
+		for(int i = 0; i < 26; i++)
+		{
+			if(alpha[i] != 0.0)
+			printf("%c = %.8g\n", 'A' + i, alpha[i]);
+		}
+	}
+
 	void print_stack(void)
         {
                 if(sp == 0){
@@ -153,6 +164,10 @@ int8_t var = -1;
 		case '\n':
 		last = pop();
 		printf("\t%.8g\n", last);
+		break;
+
+		case '?':
+		print_variables();
 		break;
 
 		default:

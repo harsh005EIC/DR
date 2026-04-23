@@ -19,7 +19,6 @@ double val[VAL];
 char line[LINE];
 int8_t li = 0;
 
-/* push value */
 	void push(double f)
 	{
 	if (sp < VAL)
@@ -28,7 +27,6 @@ int8_t li = 0;
 	  printf("error: stack full\n");
 	}
 
-/* pop value */
 	double pop(void)
 	{
 		if (sp > 0)
@@ -78,7 +76,7 @@ int16_t getop(char s[])
     s[i] = '\0';
     return NUMBER;
 }
-/* read line */
+
 int16_t getline1(char s[], int lim)
 {
 int16_t c, i;
@@ -94,7 +92,6 @@ int16_t c, i;
 	return i;
 }
 
-/* RPN calculator */
 void rpn_getline(void)
 {
     int8_t type;

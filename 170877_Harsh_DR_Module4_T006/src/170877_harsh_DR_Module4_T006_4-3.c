@@ -18,36 +18,31 @@ double val[MAXVAL];
 
 int getop(char s[])
 {
-    int i = 0, c, next;
+	int8_t i = 0, c, next;
 
-    while ((s[0] = c = getchar()) == ' ' || c == '\t');
+	while ((s[0] = c = getchar()) == ' ' || c == '\t');
+	s[1] = '\0';
 
-    s[1] = '\0';
-
-    // Check for minus sign
-    if (c == '-') {
-        next = getchar();
+	if (c == '-') {
+	        next = getchar();
 
         if (!isdigit(next) && next != '.') {
             ungetc(next,stdin);
-            return '-';   // subtraction operator
+            return '-';
         }
 
-        // It is a negative number
-        s[++i] = next;
-        c = next;
-    }
+        	s[++i] = next;
+        	c = next;
+	}
 
-    if (!isdigit(c) && c != '.')
-        return c;
+	if (!isdigit(c) && c != '.')
+	return c;
 
-    // Collect integer part
-    if (isdigit(c))
-        while (isdigit(s[++i] = c = getchar()));
+	if (isdigit(c))
+		while (isdigit(s[++i] = c = getchar()));
 
-    // Collect fractional part
-    if (c == '.')
-        while (isdigit(s[++i] = c = getchar()));
+	if (c == '.')
+	       while (isdigit(s[++i] = c = getchar()));
 
     s[i] = '\0';
 
@@ -104,7 +99,7 @@ void reverse_polish_notation(void)
             if (op2 != 0.0)
                 push(pop() / op2);
             else
-                printf("error: zero divisor\n");
+                printf("zero divisor\n");
             break;
 
         case '\n':
@@ -116,11 +111,11 @@ void reverse_polish_notation(void)
          	if (op2 != 0.0)
 		push((int)pop() % (int)op2);
 		else
-		printf("error: zero divisor\n");
+		printf("zero divisor\n");
 	    break;
 
         default:
-            printf("error: unknown command %s\n", s);
+            printf("unknown command %s\n", s);
             break;
         }
     }
