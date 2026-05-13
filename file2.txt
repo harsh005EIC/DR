@@ -1,1 +1,15 @@
-my name is harsh
+The two versions of the cat program—one implemented using standard I/O library functions (fopen, fread, fwrite, fclose) and the
+ other using system calls (open, read, write, close)—differ mainly in how data is buffered and how often they interact with the
+ operating system kernel, which directly impacts performance. The standard I/O version is generally faster for typical use because
+ it uses user-space buffering, meaning data is collected into a large internal buffer before being passed to the kernel in fewer, 
+larger chunks. This significantly reduces the number of expensive system calls, since each system call involves context switching
+ between user mode and kernel mode. As a result, even though functions like fread() internally use read(), they optimize performance
+ by minimizing direct kernel interaction. On the other hand, the system call version gives more direct control over I/O operations, 
+as each read() and write() directly invokes the kernel. This makes it slightly more flexible and closer to how the operating system 
+actually handles files, but it can become slower if not carefully buffered, because frequent system calls increase overhead. However
+, when both versions use a large buffer size such as 8 KB, the performance gap becomes much smaller, and in some cases they may perf
+orm almost similarly depending on the system’s caching and file size. Overall, the stdio version is usually preferred for general ap
+plication programming due to its simplicity and built-in buffering efficiency, while the system call version is preferred in low-lev
+el systems programming where fine-grained control over I/O behavior is required and understanding kernel interaction is important.my
+ name is harsh
+

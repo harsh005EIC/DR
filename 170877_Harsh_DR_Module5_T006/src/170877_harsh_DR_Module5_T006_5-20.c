@@ -1,265 +1,259 @@
 /*
 * File Name     : 170877_harsh_DR_module5_T006_5-20.c
 * Description   : dcl program is used to convert a C declaration into a word description.Handle function argument types.
-		  Recognize and process qualifiers like const
+                  Recognize and process qualifiers like const
 * Author        : harsh_kerai
 * Date          : 13/04/2025
 */
 
+#include <ctype.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 #define MAXTOKEN 100
 #define MAXOUT 1000
 
-enum { NAME, PARENS, BRACKETS };
-
-	int tokentype;
-	char token[MAXTOKEN];
-	char name[MAXTOKEN];
-	char datatype[MAXTOKEN];
-	char out[MAXOUT];
-
-	int errorFlag = 0;
-
-/* function prototypes */
-	int gettoken(void);
-	void dcl(void);
-	void dirdcl(void);
-	void recover(void);
-
-/* dcl: parse a declarator */
-	void dcl(void)
+	enum
 	{
-		int ns = 0;
+        	NAME,
+        	PARENS,
+        	BRACKETS
+	};
 
-		while(gettoken() == '*')
-			ns++;
-		dirdcl();
+int16_t tokentype;
+char token[MAXTOKEN];
+char name[MAXTOKEN];
+char datatype[MAXTOKEN];
+char out[MAXOUT];
 
-		if(errorFlag)
-			return;
+int8_t errorFlag = 0;
 
-		while(ns-- > 0)
-			strcat(out, " pointer to");
-	}
+int16_t gettoken(void);
+void dcl(void);
+void dirdcl(void);
+void recover(void);
 
-/* dirdcl: parse a direct declarator */
-	void dirdcl(void)
-	{
-		int type;
+        void dcl_argument(void)
+        {
+                while (1)
+                {
+                        printf("Enter declaration (CTRL+D to exit): ");
 
-		if(tokentype == '(')
-		{
-			dcl();
-			if(tokentype != ')')
-			{
-				printf("Syntax error: missing )\n");
-				errorFlag = 1;
-				return;
-			}
-		}
+                        do
+                        {
+                                if (gettoken() == EOF)
+                                        return;
+                        } while (tokentype == '\n');
 
-		else if(tokentype == NAME)
-		{
-			strcpy(name, token);
-		}
+                        errorFlag = 0;
+                        out[0] = '\0';
+                        name[0] = '\0';
+                        datatype[0] = '\0';
 
-		else{
-			printf("Syntax error: expected name\n");
-			errorFlag = 1;
-			return;
-		}
+                        if (tokentype != NAME)
+                        {
+                                printf("Error: invalid datatype\n");
+                                recover();
+                                continue;
+                        }
 
-		while(!errorFlag)
-		{
-			type = gettoken();
+                        strcpy(datatype, token);
 
-			if(type == PARENS)
-			{
-				strcat(out, " function returning");
-			}
-			else if(type == BRACKETS)
-			{
-				strcat(out, " array");
-				strcat(out, token);
-				strcat(out, " of");
-			}
-			else if(type == '(')
-			{
-				char args[MAXOUT] = "";
-				int first = 1;
+                        dcl();
 
-				strcat(args, "(");
+                        if (errorFlag)
+                        {
+                                if (tokentype != '\n')
+                                        recover();
+                                continue;
+                        }
 
-				while((type = gettoken()) != ')' && type != EOF && type != '\n')
-				{
-					if(type == NAME)
-					{
-						if(!first)
-							strcat(args, ", ");
+                        if (tokentype != '\n' && tokentype != EOF)
+                        {
+                                printf("Error: syntax error\n");
+                                recover();
+                                continue;
+                        }
 
-						strcat(args, token);
-						first = 0;
-					}
+                        printf("%s: %s %s\n", name, out, datatype);
+                }
+        }
 
-					else if(type == '*')
-					{
-						strcat(args, " pointer to");
-					}
-					else if(type == PARENS)
-					{
-						strcat(args, " function returning");
-					}
-					else if(type == BRACKETS)
-					{
-						strcat(args, " array");
-						strcat(args, token);
-						strcat(args, " of");
-					}
-				}
+        void dcl(void)
+        {
+                int8_t ns = 0;
 
-				strcat(args, ")");
+                while (gettoken() == '*')
+                        ns++;
 
-				strcat(out, " function ");
-				strcat(out, args);
-				strcat(out, " returning");
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
+                dirdcl();
 
-/* gettoken: return next token */
-	int gettoken(void)
-	{
-		int c;
-		char *p = token;
+                if (errorFlag)
+                        return;
 
-		while((c = getchar()) == ' ' || c == '\t');
+                while (ns-- > 0)
+                        strcat(out, " pointer to");
+        }
 
-		if(c == '/')
-		{
-			int next = getchar();
-			if(next == '/')
-			{
-				while((c = getchar()) != '\n' && c != EOF);
-				return tokentype = '\n';
-			}
-			else
-			{
-				ungetc(next, stdin);
-				return tokentype = '/';
-			}
-		}
+        void dirdcl(void)
+        {
+                int16_t type;
 
-		if(c == '(')
-		{
-			if((c = getchar()) == ')')
-			{
-				strcpy(token, "()");
-				return tokentype = PARENS;
-			}
-			else
-			{
-				ungetc(c, stdin);
-				return tokentype = '(';
-			}
-		}
+                if (tokentype == '(')
+                {
+                        dcl();
+                        if (tokentype != ')')
+                        {
+                                printf("Error: missing )\n");
+                                errorFlag = 1;
+                                return;
+                        }
+                }
+                else if (tokentype == NAME)
+                {
+                        strcpy(name, token);
+                }
+                else
+                {
+                        printf("Error: expected name\n");
+                        errorFlag = 1;
+                        return;
+                }
 
-		else if(c == '[')
-		{
-			*p++ = c;
-			while((c = getchar()) != ']' && c != EOF && c != '\n')
-			*p++ = c;
+                while (!errorFlag)
+                {
+                        type = gettoken();
 
-			if(c == ']')
-				*p++ = c;
-			else
-			{
-				printf("Syntax error: missing ]\n");
-				errorFlag = 1;
-			}
+                        if (type == PARENS)
+                        {
+                                strcat(out, " function returning");
+                        }
+                        else if (type == BRACKETS)
+                        {
+                                strcat(out, " array");
+                                strcat(out, token);
+                                strcat(out, " of");
+                        }
+                        else if (type == '(')
+                        {
+                                char args[MAXOUT] = "";
+                                int first = 1;
 
-			*p = '\0';
-			return tokentype = BRACKETS;
-		}
+                                strcat(args, "(");
 
-		else if(isalpha(c))
-		{
-			*p++ = c;
-			while((c = getchar()) != EOF && isalnum(c))
-				*p++ = c;
+                                while ((type = gettoken()) != ')' && type != EOF && type != '\n')
+                                {
+                                        if (type == NAME)
+                                        {
+                                                if (!first)
+                                                        strcat(args, ", ");
+                                                strcat(args, token);
+                                                first = 0;
+                                        }
+                                        else if (type == '*')
+                                        {
+                                                strcat(args, "*");
+                                        }
+                                        else if (type == PARENS)
+                                        {
+                                                strcat(args, " function returning");
+                                        }
+                                        else if (type == BRACKETS)
+                                        {
+                                                strcat(args, " array");
+                                                strcat(args, token);
+                                                strcat(args, " of");
+                                        }
+                                }
 
-			*p = '\0';
+                                if (type != ')')
+                                {
+                                        printf("Error: missing ) in arguments\n");
+                                        errorFlag = 1;
+                                        return;
+                                }
 
-			if(c != EOF)
-				ungetc(c, stdin);
+                                strcat(args, ")");
 
-			return tokentype = NAME;
-		}
+                                strcat(out, " function ");
+                                strcat(out, args);
+                                strcat(out, " returning");
+                        }
+                        else
+                        {
+                                break;
+                        }
+                }
+        }
 
-		else{
-			return tokentype = c;
-		}
-	}
+        int16_t gettoken(void)
+        {
+                int16_t c;
+                char *p = token;
 
-/* recover from error */
-	void recover(void)
-	{
-		int c;
-		while((c = getchar()) != '\n' && c != EOF);
-	}
+                while ((c = getchar()) == ' ' || c == '\t');
 
-	void dcl_argument(void)
-	{
-		while(1)
-		{
-			printf("Enter declaration: ");
+                if (c == '\n' || c == EOF)
+                        return tokentype = c;
 
-			if(gettoken() == EOF)
-			break;
+                if (c == '(')
+                {
+                        if ((c = getchar()) == ')')
+                        {
+                                strcpy(token, "()");
+                                return tokentype = PARENS;
+                        }
+                        else
+                        {
+                                ungetc(c, stdin);
+                                return tokentype = '(';
+                        }
+                }
+                else if (c == '[')
+                {
+                        *p++ = c;
 
-			errorFlag = 0;
-			out[0] = '\0';
-			name[0] = '\0';
-			datatype[0] = '\0';
+                        while ((c = getchar()) != ']' && c != EOF && c != '\n')
+                                *p++ = c;
 
-			if(tokentype != NAME)
-			{
-				printf("Invalid datatype\n");
-				recover();
-				continue;
-			}
+                        if (c == ']')
+                        {
+                                *p++ = c;
+                                *p = '\0';
+                                return tokentype = BRACKETS;
+                        }
+                        else
+                        {
+                                printf("Error: missing ]\n");
+                                errorFlag = 1;
+                                return tokentype = '\n';
+                        }
+                }
+                else if (isalpha(c))
+                {
+                        *p++ = c;
 
-			strcpy(datatype, token);
+                        while (isalnum(c = getchar()))
+                                *p++ = c;
 
-			while(gettoken() == NAME)
-			{
-				strcat(datatype, " ");
-				strcat(datatype, token);
-			}
+                        *p = '\0';
 
-			dcl();
+                        if (c != EOF)
+                                ungetc(c, stdin);
 
-			if(errorFlag)
-			{
-				recover();
-				continue;
-			}
+                        return tokentype = NAME;
+                }
+                else
+                {
+                        return tokentype = c;
+                }
+        }
 
-			if(tokentype != '\n' && tokentype != EOF)
-			{
-				printf("Syntax error\n");
-				recover();
-				continue;
-			}
-
-			printf("%s: %s %s\n", name, out, datatype);
-		}
-
-		return;
-	}
+        /* recover */
+        void recover(void)
+        {
+                int16_t c;
+                while ((c = getchar()) != '\n' && c != EOF)
+                        ;
+        }

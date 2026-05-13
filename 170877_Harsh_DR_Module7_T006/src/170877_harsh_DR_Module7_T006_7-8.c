@@ -41,6 +41,16 @@
                 return;
         }
 
+	void wait_for_enter(void)
+	{
+		int c;
+		printf("\nPress Enter to continue...");
+
+		//while((c = getchar()) != '\n' && c != EOF);
+    		//getchar();
+		while (getchar() != '\n');
+	}
+
         void print_file(FILE * fp, char *filename)
         {
                 char line[MAXLINE];
@@ -54,6 +64,7 @@
                 {
                         if (line_count == PAGELEN)
                         {
+				wait_for_enter();
                                 page++;
                                 line_count = 0;
                                 printf("\f");

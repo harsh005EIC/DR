@@ -9,13 +9,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #define MAXTOKEN 100
 #define MAXOUT 2000
 
 enum { NAME, PARENS, BRACKETS };
 
-int tokentype;
+int16_t tokentype;
 char token[MAXTOKEN];
 char out[MAXOUT];
 char temp[MAXOUT];
@@ -27,8 +28,8 @@ char temp[MAXOUT];
 * Date          : 13/04/2025
 */
 
-	int gettoken(void){
-		int c, getch(void);
+	int16_t gettoken(void){
+		int16_t c, getch(void);
 		void ungetch(int);
 		char *p = token;
 
@@ -78,9 +79,9 @@ char temp[MAXOUT];
 
 	#define BUFSIZE 100
 	char buf[BUFSIZE];
-	int bufp = 0;
+	int16_t bufp = 0;
 
-	int getch(void)
+	int16_t getch(void)
 	{
 		return (bufp > 0) ? buf[--bufp] : getchar();
 	}
@@ -98,10 +99,9 @@ char temp[MAXOUT];
 * Author        : harsh_kerai
 * Date          : 13/04/2025
 */
-
 	void undeclare()
 	{
-		int type;
+		int16_t type;
 
 		while(gettoken() != EOF)
 		{
@@ -143,4 +143,3 @@ char temp[MAXOUT];
 				printf("%s\n", out);
 		}
 	}
-

@@ -268,6 +268,39 @@ void select_function(int argc, char *argv[]){
 #elif MODULE == 7 && TASK == 8
 	print_files(argc,argv);
 
+#elif MODULE == 7 && TASK == 9
+	time_space();
+
+#elif MODULE == 8 && TASK == 1
+	std_lib(argc,argv);
+
+#elif MODULE == 8 && TASK == 11
+	sys_call(argc,argv);
+
+#elif MODULE == 8 && TASK == 2
+	bit_wise( argc, argv);
+
+#elif MODULE == 8 && TASK == 3
+	flushbuf_fflush_fclose(argc, argv);
+
+#elif MODULE == 8 && TASK == 22
+	bit_field( argc, argv);
+
+#elif MODULE == 8 && TASK == 4
+	fseek_function(argc,argv);
+
+#elif MODULE == 8 && TASK == 5
+	fsize_function(argc, argv);
+
+#elif MODULE == 8 && TASK == 6
+	modified_calloc();
+
+#elif MODULE == 8 && TASK == 7
+	my_malloc();
+
+#elif MODULE ==8 && TASK == 8
+	b_free();
+
 #else
         printf("Invalid module/task selection\n");
 #endif

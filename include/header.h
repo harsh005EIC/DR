@@ -193,6 +193,29 @@ void file_compare(int argc, char *argv[]);
 void find_keyword(int argc, char *argv[]);
 
 void print_files(int argc, char *argv[]);
+
+void time_space(void);
+
+void std_lib(int argc, char *argv[]);
+
+void sys_call(int argc, char *argv[]);
+
+void bit_wise(int argc, char *argv[]);
+
+void bit_field(int argc, char *argv[]);
+
+void flushbuf_fflush_fclose(int argc, char *argv[]);
+
+void fseek_function(int argc, char *argv[]);
+
+void fsize_function(int argc, char *argv[]);
+
+void modified_calloc();
+
+void my_malloc();
+
+void b_free();
+
 /* Future modules can be added here */
 
 #endif

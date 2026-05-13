@@ -2,7 +2,7 @@
 * File Name     : 170877_harsh_DR_module7_T006_7-7.c
 * Description   : Modify the pattern finding program of Chapter 5 to take its input from a set of
                   named files or, if no files are named as arguments, from the standard input.
-Should the file name be printed when a matching line is found?
+		  Should the file name be printed when a matching line is found?
 * Author        : harsh_kerai
 * Date          : 22/04/2025
 */
@@ -92,7 +92,7 @@ int strindex(char source[], char searchfor[]);
                 {
                         for (j = i, k = 0; searchfor[k] != '\0' && source[j] == searchfor[k]; j++, k++)
                                 ;
-                        if (k > 0 && searchfor[k] == '\0')
+                        if (searchfor[k] == '\0')
                                 return i;
                 }
                 return -1;

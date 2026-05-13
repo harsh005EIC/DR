@@ -1,39 +1,47 @@
 /*
 * File Name     : 170877_harsh_DR_module5_T006_5-17.c
 * Description   : Add a field-searching capability, so sorting may bee done on fields within lines, each field sorted according
-		  to an independent set of options. (The index for this book was sorted with -df for the index category and -n
-		  for the page numbers.)
+                  to an independent set of options. (The index for this book was sorted with -df for the index category and -n
+                  for the page numbers.)
 * Author        : harsh_kerai
 * Date          : 08/04/2025
 */
 
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <ctype.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAXLINES 5000
-#define MAXLEN   1000
+#define MAXLEN 1000
 #define MAXSTORE 10000
+#define MAXFIELDS 10
 
-        char *lineptr[MAXLINES];
+char *lineptr[MAXLINES];
 
-        int16_t reverse = 0;
-        int16_t numeric = 0;
+        typedef struct
+        {
+                int16_t field_no;
+                int16_t numeric;
+                int16_t reverse;
+                int16_t fold;
+                int16_t directory;
+        } Field;
+
+        Field fields[MAXFIELDS];
+        int nfields = 0;
 
         int16_t my_getline(char *s, int16_t lim)
         {
                 int16_t c, i;
 
-                for(i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; i++)
-                s[i] = c;
+                for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; i++)
+                        s[i] = c;
 
-                if(c == '\n'){
-                s[i] = c;
-                i++;
-                }
+                if (c == '\n')
+                        s[i++] = c;
+
                 s[i] = '\0';
                 return i;
         }
@@ -45,9 +53,10 @@
                 char *p = linestore;
                 char *end = linestore + maxstore;
 
-                while((len = my_getline(line, MAXLEN)) > 0){
-                        if(nlines >= maxlines || p + len > end)
-                        return -1;
+                while ((len = my_getline(line, MAXLEN)) > 0)
+                {
+                        if (nlines >= maxlines || p + len > end)
+                                return -1;
 
                         line[len - 1] = '\0';
                         strcpy(p, line);
@@ -60,137 +69,191 @@
 
         void writelines(char *lineptr[], int16_t nlines)
         {
-                int16_t i;
-                for(i = 0; i < nlines; i++)
+                for (int i = 0; i < nlines; i++)
                         printf("%s\n", lineptr[i]);
         }
 
         void swap(char *v[], int16_t i, int16_t j)
         {
-                char *temp;
-                temp = v[i];
+                char *temp = v[i];
                 v[i] = v[j];
                 v[j] = temp;
         }
 
-	void get_fields(char *line, char **f1, char **f2)
-	{
-		*f1 = strtok(line, ",");
-		*f2 = strtok(NULL, ",");
+        void get_field(const char *line, int field_no, char *buf)
+        {
+                int16_t i = 1;
 
-		if(*f2){
-			while(**f2 == ' ') (*f2)++;
-		}
-	}
+                while (*line && i < field_no)
+                {
+                        if (*line == ',')
+                                i++;
+                        line++;
+                }
 
-	int cmp_page(const char *s1, const char *s2)
-	{
-		double v1 = atof(s1);
-		double v2 = atof(s2);
+                if (!*line)
+                {
+                        buf[0] = '\0';
+                        return;
+                }
 
-		if(v1 < v2)
-			return -1;
-		else if (v1 > v2)
-			return 1;
-		else
-			return 0;
-	}
+                while (*line == ' ')
+                        line++;
 
-	int isdirchar(int c)
-	{
-		return isalnum((unsigned char)c) || c == ' ';
-	}
+                int16_t j = 0;
 
-	int cmp_category(const char *s1, const char *s2)
-	{
-		char c1, c2;
+                while (*line && *line != ',' && j < MAXLEN - 1)
+                {
+                        buf[j++] = *line++;
+                }
 
-	while(1){
-		while(*s1 && !isdirchar(*s1)) s1++;
-		while(*s2 && !isdirchar(*s2)) s2++;
+                buf[j] = '\0';
+        }
 
-		c1 = tolower((unsigned char)*s1);
-		c2 = tolower((unsigned char)*s2);
+        int16_t compare_field(const char *l1, const char *l2, Field *f)
+        {
+                char s1[MAXLEN], s2[MAXLEN];
 
-		if(c1 == c2){
-			if(c1 == '\0')
-				return 0;
-		s1++;
-		s2++;
-		}
-		else{
-			return c1 - c2;
-		}
-	}
-	}
+                get_field(l1, f->field_no, s1);
+                get_field(l2, f->field_no, s2);
 
+                int result;
 
-	int compare_lines(char *l1, char *l2)
-	{
-		char temp1[MAXLEN], temp2[MAXLEN];
-		char *f1_1, *f1_2;
-		char *f2_1, *f2_2;
+                if (f->numeric)
+                {
+                        double v1 = atof(s1);
+                        double v2 = atof(s2);
+                        result = (v1 > v2) - (v1 < v2);
+                }
+                else
+                {
+                        char *p1 = s1;
+                        char *p2 = s2;
 
-		strcpy(temp1, l1);
-		strcpy(temp2, l2);
+                        while (1)
+                        {
+                                if (f->directory)
+                                {
+                                        while (*p1 && !isalnum(*p1) && *p1 != ' ')
+                                                p1++;
+                                        while (*p2 && !isalnum(*p2) && *p2 != ' ')
+                                                p2++;
+                                }
 
-		get_fields(temp1, &f1_1, &f2_1);
-		get_fields(temp2, &f1_2, &f2_2);
+                                char c1 = f->fold ? tolower(*p1) : *p1;
+                                char c2 = f->fold ? tolower(*p2) : *p2;
 
-		int result = cmp_category(f1_1, f1_2);
+                                if (c1 != c2)
+                                {
+                                        result = c1 - c2;
+                                        break;
+                                }
 
-		if(result != 0)
-		return result;
+                                if (c1 == '\0')
+                                {
+                                        result = 0;
+                                        break;
+                                }
 
-		return cmp_page(f2_1, f2_2);
-	}
+                                p1++;
+                                p2++;
+                        }
+                }
 
+                if (f->reverse)
+                        result = -result;
+
+                return result;
+        }
+
+        int16_t compare_lines(char *l1, char *l2)
+        {
+                for (int8_t i = 0; i < nfields; i++)
+                {
+                        int16_t res = compare_field(l1, l2, &fields[i]);
+                        if (res != 0)
+                                return res;
+                }
+                return 0;
+        }
 
         void qsort_custom(char *v[], int16_t left, int16_t right)
         {
                 int16_t i, last;
 
-                if(left >= right)
+                if (left >= right)
                         return;
 
                 swap(v, left, (left + right) / 2);
                 last = left;
 
-                for(i = left + 1; i <= right; i++){
-			if (compare_lines(v[i], v[left]) < 0)
-            			swap(v, ++last, i);
+                for (i = left + 1; i <= right; i++)
+                {
+                        if (compare_lines(v[i], v[left]) < 0)
+                                swap(v, ++last, i);
                 }
 
                 swap(v, left, last);
+
                 qsort_custom(v, left, last - 1);
                 qsort_custom(v, last + 1, right);
         }
 
+        void parse_args(int argc, char *argv[])
+        {
+                while (--argc > 0)
+                {
+                        char *arg = *++argv;
 
-        void sorting_field(int16_t argc, char *argv[])
+                        if (arg[0] == '-' && arg[1] == 'f')
+                        {
+                                Field f = {0, 0, 0, 0, 0};
+
+                                f.field_no = atoi(arg + 2);
+
+                                char *c = arg + 2;
+                                while (isdigit(*c))
+                                        c++;
+
+                                for (; *c; c++)
+                                {
+                                        if (*c == 'n')
+                                                f.numeric = 1;
+                                        else if (*c == 'r')
+                                                f.reverse = 1;
+                                        else if (*c == 'd')
+                                                f.directory = 1;
+                                        else if (*c == 'f')
+                                                f.fold = 1;
+                                }
+
+                                fields[nfields++] = f;
+                        }
+                }
+
+                if (nfields == 0)
+                {
+                        fields[0].field_no = 1;
+                        nfields = 1;
+                }
+        }
+
+        void sorting_field(int argc, char *argv[])
         {
                 int16_t nlines;
                 char linestore[MAXSTORE];
 
-                while(--argc > 0 && (*++argv)[0] == '-'){
-                        char *c = *argv + 1;
-                        while (*c)
-                        {
-                                if(*c == 'r')
-                                        reverse = 1;
-                                else if (*c == 'n')
-                                        numeric = 1;
-                        c++;
-                        }
-                }
+                parse_args(argc, argv);
 
-                if((nlines = readlines(lineptr, MAXLINES, linestore, MAXSTORE)) >= 0)
+                if ((nlines = readlines(lineptr, MAXLINES, linestore, MAXSTORE)) >= 0)
                 {
                         qsort_custom(lineptr, 0, nlines - 1);
                         writelines(lineptr, nlines);
                 }
-
-                else{
+                else
+                {
                         printf("error: input too big to sort\n");
                 }
+
+                return;
         }

@@ -5,44 +5,94 @@
  * Date          : 08/04/2025
  */
 
-#include "header.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 #define MAXTOKEN 100
-        enum
-        {
-                NAME,
-                PARENS,
-                BRACKETS
-        };
 
-        int tokentype;
-        char token[MAXTOKEN];
-        char name[MAXTOKEN];
-        char datatype[MAXTOKEN];
-        char out[1000];
+enum
+{
+        NAME,
+        PARENS,
+        BRACKETS
+};
 
-        int gettoken(void);
+int16_t tokentype;
+char token[MAXTOKEN];
+char name[MAXTOKEN];
+char datatype[MAXTOKEN];
+char out[1000];
+
+int8_t errorFlag = 0;
+        int16_t gettoken(void);
         void dcl(void);
         void dirdcl(void);
+        void recover(void);
 
-        int errorFlag = 0;
+        void direct_dcl(void)
+        {
+                while(1)
+                {
+                        printf("Enter declaration:(or CTRL + D to exit) ");
+
+                        if(gettoken() == EOF)
+                                break;
+
+                        while(tokentype == '\n')
+                        {
+                                if(gettoken() == EOF)
+                                        return;
+                        }
+
+                        errorFlag = 0;
+                        out[0] = '\0';
+                        name[0] = '\0';
+                        datatype[0] = '\0';
+
+                        if(tokentype != NAME)
+                        {
+                                printf("Error: invalid datatype\n");
+                                recover();
+                                continue;
+                        }
+
+                        strcpy(datatype, token);
+
+                        dcl();
+
+                        if(errorFlag)
+                        {
+				if (tokentype != '\n')
+                                        recover();
+                                continue;
+                        }
+
+                        if (tokentype != '\n' && tokentype != EOF)
+                        {
+                                printf("Error: syntax error\n");
+                                recover();
+                                continue;
+                        }
+
+                        printf("%s: %s %s\n", name, out, datatype);
+                }
+
+                return;
+        }
 
         void dcl(void)
         {
-                int ns;
+                int8_t ns = 0;
 
-                for (ns = 0; gettoken() == '*';)
+                while (gettoken() == '*')
                         ns++;
 
                 dirdcl();
 
                 if (errorFlag)
-                {
                         return;
-                }
 
                 while (ns-- > 0)
                         strcat(out, " pointer to");
@@ -50,14 +100,14 @@
 
         void dirdcl(void)
         {
-                int type;
+                int16_t type;
 
                 if (tokentype == '(')
                 {
                         dcl();
                         if (tokentype != ')')
                         {
-                                printf("Syntax error : missing closing )\n");
+                                printf("Error: missing )\n");
                                 errorFlag = 1;
                                 return;
                         }
@@ -68,7 +118,7 @@
                 }
                 else
                 {
-                        printf("Syntax error : expected name here\n");
+                        printf("Error: expected name\n");
                         errorFlag = 1;
                         return;
                 }
@@ -78,7 +128,9 @@
                         type = gettoken();
 
                         if (type == PARENS)
+                        {
                                 strcat(out, " function returning");
+                        }
                         else if (type == BRACKETS)
                         {
                                 strcat(out, " array");
@@ -91,6 +143,13 @@
 
                                 while ((type = gettoken()) != ')' && type != EOF && type != '\n')
                                         ;
+
+                                if (type != ')')
+                                {
+                                        printf("Error: missing )\n");
+                                        errorFlag = 1;
+                                        return;
+                                }
                         }
                         else
                         {
@@ -99,32 +158,16 @@
                 }
         }
 
-        int gettoken(void)
+        int16_t gettoken(void)
         {
-                int c;
+                int16_t c;
                 char *p = token;
 
                 while ((c = getchar()) == ' ' || c == '\t')
                         ;
 
-                if (c == '/')
-                {
-                        int next = getchar();
-
-                        if (next == '/')
-                        {
-
-                                while ((c = getchar()) != '\n' && c != EOF)
-                                        ;
-
-                                return tokentype = '\n';
-                        }
-                        else
-                        {
-                                ungetc(next, stdin);
-                                return tokentype = '/';
-                        }
-                }
+                if (c == '\n' || c == EOF)
+                        return tokentype = c;
 
                 if (c == '(')
                 {
@@ -142,38 +185,34 @@
                 else if (c == '[')
                 {
                         *p++ = c;
+
                         while ((c = getchar()) != ']' && c != EOF && c != '\n')
-                        {
                                 *p++ = c;
-                        }
+
                         if (c == ']')
                         {
                                 *p++ = c;
+                                *p = '\0';
+                                return tokentype = BRACKETS;
                         }
                         else
                         {
-                                printf("Syntax error : missing ]\n");
+                                printf("Error: missing ]\n");
                                 errorFlag = 1;
+                                return tokentype = '\n';
                         }
-                        *p = '\0';
-
-                        return tokentype = BRACKETS;
                 }
-
                 else if (isalpha(c))
                 {
                         *p++ = c;
-                        while ((c = getchar()) != EOF && isalnum(c))
-                        {
+
+                        while (isalnum(c = getchar()))
                                 *p++ = c;
-                        }
 
                         *p = '\0';
 
                         if (c != EOF)
-                        {
                                 ungetc(c, stdin);
-                        }
 
                         return tokentype = NAME;
                 }
@@ -185,51 +224,6 @@
 
         void recover(void)
         {
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF)
-                        ;
-        }
-
-        void direct_dcl()
-        {
-                while (1)
-                {
-                        printf("Enter input : ");
-
-                        if (gettoken() == EOF)
-                                break;
-
-                        errorFlag = 0;
-
-                        out[0] = '\0';
-                        name[0] = '\0';
-                        datatype[0] = '\0';
-
-                        if (tokentype != NAME)
-                        {
-                                printf("Invalid datatype\n");
-                                recover();
-                                continue;
-                        }
-
-                        strcpy(datatype, token);
-
-                        dcl();
-
-                        if (errorFlag)
-                        {
-                                if (tokentype != '\n')
-                                        recover();
-                                continue;
-                        }
-
-                        if (tokentype != '\n' && tokentype != EOF)
-                        {
-                                printf("Invalid : syntax error\n");
-                                recover();
-                                continue;
-                        }
-
-                        printf("%s: %s %s\n", name, out, datatype);
-                }
+                int16_t c;
+                while ((c = getchar()) != '\n' && c != EOF);
         }
