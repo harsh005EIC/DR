@@ -9,22 +9,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #define MAXWORD 100
 
 	struct tnode{
 		char *word;
-		int count;
+		int16_t count;
 		struct tnode *left;
 		struct tnode *right;
 	};
 
-	int n;
+	int16_t n;
 
 	struct tnode *addtree(struct tnode *, char *);
 	void treeprint(struct tnode *);
 	void groupprint(struct tnode *,struct tnode *);
-	int getword(char *, int);
+	int16_t getword(char *, int16_t);
 
 	struct tnode *talloc(void)
 	{
@@ -47,7 +48,7 @@
 */
 	struct tnode *addtree(struct tnode *p, char *w)
 	{
-		int cond;
+		int16_t cond;
 
 		if(p == NULL)
 		{
@@ -90,7 +91,7 @@
 * Date          : 15/04/2025
 */
 
-	int prefixcmp(char *s, char *t)
+	int16_t prefixcmp(char *s, char *t)
 	{
 		return strncmp(s, t, n);
 	}
@@ -101,7 +102,7 @@
 * Date          : 15/04/2025
 */
 
-	void groupprint_helper(struct tnode *root, struct tnode *node, int *printed)
+	void groupprint_helper(struct tnode *root, struct tnode *node, int16_t *printed)
 	{
 		if(node != NULL)
 		{
@@ -122,12 +123,13 @@
 	}
 
 
-	int has_same_prefix(struct tnode *root, char *word)
+
+	int16_t has_same_prefix(struct tnode *root, char *word)
 	{
 		if(root == NULL)
 			return 0;
 
-		int cmp = strcmp(root->word, word);
+		int16_t cmp = strcmp(root->word, word);
 
 		if(cmp >= 0)
 			return has_same_prefix(root->left, word);
@@ -143,7 +145,7 @@
 		{
         		groupprint(root->left, whole);
 
-			int printed = 0;
+			int16_t printed = 0;
 			if(!has_same_prefix(whole, root->word))
 			{
 				groupprint_helper(root, whole, &printed);
@@ -158,9 +160,9 @@
 * Date          : 15/04/2025
 */
 
-	int getword(char *word, int lim)
+	int16_t getword(char *word, int16_t lim)
 	{
-		int c;
+		int16_t c;
 		char *w = word;
 
 		while(isspace(c = getchar()));
@@ -173,7 +175,7 @@
 
 		if(c == '/')
 		{
-			int d = getchar();
+			int16_t d = getchar();
 			if(d == '/')
 			{
 				while((c = getchar()) != '\n' && c != EOF);
@@ -222,7 +224,7 @@
 		return word[0];
 	}
 
-	void variable_names(int argc, char *argv[])
+	void variable_names(int16_t argc, char *argv[])
 	{
 		struct tnode *root = NULL;
 		char word[MAXWORD];

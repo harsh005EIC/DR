@@ -1,5 +1,5 @@
 /*
-* File Name     : 170904_harsh_DR_module1_T006_1-18.c
+* File Name     : 170877_harsh_DR_module1_T006_1-18.c
 * Description   : Write a program to remove trailing blanks and tabs from each line of input,
 		  and to delete entirely blank lines.
 * Author        : harsh_kerai

@@ -1,5 +1,5 @@
 /*
-* File Name     : 170904_harsh_DR_module1_T006_1-9.c
+* File Name     : 170877_harsh_DR_module1_T006_1-9.c
 * Description   : Write a program to copy its input to its output,
 		  replacing each string of one or more blanks by a single blank.
 * Author        : harsh_kerai

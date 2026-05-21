@@ -1,5 +1,5 @@
 /*
-* File Name     : 170904_harsh_DR_module1_T006_1-12.c
+* File Name     : 170877_harsh_DR_module1_T006_1-12.c
 * Description   : Write a program that prints its input one word per line
 * Author        : harsh_kerai
 * Created       : 09-02-2026

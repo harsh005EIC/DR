@@ -1,5 +1,5 @@
 /*
-* File Name     : 170904_harsh_DR_module1_T006_1-8.c
+* File Name     : 170877_harsh_DR_module1_T006_1-8.c
 * Description   : Write a program to count blanks, tabs, and newlines.
 * Author        : harsh_kerai
 * Created       : 06-02-2026

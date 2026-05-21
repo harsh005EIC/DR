@@ -8,13 +8,14 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdint.h>
 
 #define MAXWORD 100
 #define BUFSIZE 100
 
 	struct key{
 		char *word;
-		int count;
+		int16_t count;
 	};
 
 	struct key keytab[]={
@@ -30,14 +31,14 @@
 
 	#define NKEYS (sizeof keytab / sizeof keytab[0])
 
-	int getword(char *, int);
-	int binsearch(char *, struct key *, int);
-	int getch(void);
-	void ungetch(int);
+	int16_t getword(char *, int16_t);
+	int16_t binsearch(char *, struct key *, int16_t);
+	int16_t getch(void);
+	void ungetch(int16_t);
 
 	void get_word(void)
 	{
-		int n;
+		size_t n;
 		char word[MAXWORD];
 
 		while(getword(word, MAXWORD) != EOF)
@@ -58,9 +59,9 @@
 	return;
 	}
 
-	int binsearch(char *word, struct key tab[], int n)
+	int16_t binsearch(char *word, struct key tab[], int16_t n)
 	{
-		int low = 0, high = n - 1, mid, cond;
+		int16_t low = 0, high = n - 1, mid, cond;
 
 		while(low <= high)
 		{
@@ -76,9 +77,9 @@
 		return -1;
 	}
 
-	int getword(char *word, int lim)
+	int16_t getword(char *word, int16_t lim)
 	{
-		int c;
+		int16_t c;
 		char *w = word;
 
 		while(isspace(c = getch()));
@@ -94,7 +95,7 @@
 
 		if(c == '/')
 		{
-			int d = getch();
+			int16_t d = getch();
 			if(d == '/')
 			{
 				while((c = getch()) != '\n' && c != EOF);
@@ -102,7 +103,7 @@
 			}
 			else if (d == '*')
 			{
- 				int prev = 0;
+ 				int16_t prev = 0;
 				while((c = getch()) != EOF)
 				{
 					if(prev == '*' && c == '/')
@@ -157,14 +158,14 @@
 	}
 
 	char buf[BUFSIZE];
-	int bufp = 0;
+	int16_t bufp = 0;
 
-	int getch(void)
+	int16_t getch(void)
 	{
 		return (bufp > 0) ? buf[--bufp] : getchar();
 	}
 
-	void ungetch(int c)
+	void ungetch(int16_t c)
 	{
 		if(bufp >= BUFSIZE)
 			printf("ungetch: too many characters\n");
