@@ -1,5 +1,5 @@
 /*
-* File Name     : 170904_harsh_DR_module4_T006_4-1.c
+* File Name     : 170877_harsh_DR_module4_T006_4-1.c
 * Description   : Write the function strindex(s,t) which returns the position of the rightmost occurrence of t in s, or -1 if
 		  there is none.
 * Author        : harsh_kerai

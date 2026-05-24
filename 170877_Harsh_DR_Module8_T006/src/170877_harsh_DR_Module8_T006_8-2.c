@@ -1,5 +1,5 @@
 /*
-* File Name     : 170877_harsh_DR_module8_T006_8-1.c
+* File Name     : 170877_harsh_DR_module8_T006_8-2.c
 * Description   : Rewrite fopen and _fillbuf with fields instead of explicit bit operations. Compare code size and execution
                   speed.
 * Author        : harsh_kerai

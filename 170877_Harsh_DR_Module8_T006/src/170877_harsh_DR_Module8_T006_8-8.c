@@ -1,5 +1,5 @@
 /*
-* File Name     : 170877_harsh_DR_module8_T006_8-7.c
+* File Name     : 170877_harsh_DR_module8_T006_8-8.c
 * Description   : Write a routine bfree(p,n) that will free any arbitrary block p of n characters into the free list maintained by
                   malloc and free. By using bfree, a user can add a static or external array to the free list at any time.
 * Author        : harsh_kerai

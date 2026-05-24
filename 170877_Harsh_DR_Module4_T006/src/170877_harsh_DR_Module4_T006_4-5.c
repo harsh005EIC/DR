@@ -1,5 +1,5 @@
 /*
-* File Name     : 170904_harsh_DR_module4_T006_4-5.c
+* File Name     : 170877_harsh_DR_module4_T006_4-5.c
 * Description   : Add access to library functions like sin, exp, and pow.
 		  By using in built library functions provided by <math.h> library.
 		  One must create the commands for sin, exp and power operation.
